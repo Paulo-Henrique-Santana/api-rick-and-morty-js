@@ -1,0 +1,117 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: monospace;
+}
+
+body {
+  background-image: url('./background-galaxy.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.botoes {
+  display: flex;
+  justify-content: space-between;
+  margin: 30px auto;
+  max-width: 1000px;
+}
+
+.botoes button {
+  border-radius: 4px;
+  border: none;
+  padding: 5px 15px;
+  background-color: #1B998B;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+}
+
+.botoes button:enabled:hover {
+  filter: brightness(93%);
+}
+
+.botoes button:disabled {
+  background-color: gray;
+}
+
+.personagens {
+  display: grid;
+  grid-template-columns: repeat(4, min-content);
+  gap: 50px 25px;
+  max-width: max-content;
+  margin: 0 auto;
+}
+
+.personagem {
+  display: inline-block;
+  border-radius: 5px;
+  width: 300px;
+  height: 550px;
+  background-color: #3c3e44;
+  color: white;
+  position: relative;
+}
+
+.personagem img {
+  display: block;
+  margin: 7.5px auto;
+  max-width: 95%;
+  border-radius: 4px;
+}
+
+.personagem .status {
+  border-radius: 4px;
+  padding: 2.5px 5px;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  position: absolute;
+  top: 13px;
+  left: 13px;
+}
+
+.personagem .status.alive{
+  background-color: #29bf12;
+}
+
+.personagem .status.dead{
+  background-color: #f21b3f;
+}
+
+.personagem .status.unknown{
+  background-color: #a5a5a5;
+}
+
+.personagem .sobre {
+  padding: 13px;
+}
+
+.personagem .sobre .nome {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  height: 60px;
+}
+
+.personagem .sobre .especie {
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  background-color: #495057;
+  padding: 0 3px;
+  border-radius: 4px;
+  width: min-content;
+}
+
+.personagem .sobre .titulo-ultima-localizacao {
+  color: #a5a5a5;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 1px;
+}
+
+.personagem .sobre .ultima-localizacao {
+  font-size: 1.4rem;
+}
