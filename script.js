@@ -1,29 +1,35 @@
 let url = 'https://rickandmortyapi.com/api/character';
+const pesquisa = document.querySelector('.pesquisa');
+const btnProcurar = document.querySelector('.procurar');
 const btnPrev = document.querySelector('.prev');
 const btnNext = document.querySelector('.next');
 const containerPersonagens = document.querySelector('.personagens');
-const page = 0;
+let paginaAnterior;
+let proximaPagina;
 
-const buscarRespostaApi = async (url) => {
-  const response = await fetch(url);
-  const responseJSON = await response.json();
-  return responseJSON;
+const buscarApi = async (url) => {
+  const req = await fetch(url);
+  if (req.status === 200) return await req.json();
 }
 
-const verificarProximoEAnterior = async () => {
-  const { info } = await buscarRespostaApi(url);
+const verificarProximoEAnterior = async (info) => {
   (info.prev === null) ? btnPrev.setAttribute('disabled', '') : btnPrev.removeAttribute('disabled');
   (info.next === null) ? btnNext.setAttribute('disabled', '') : btnNext.removeAttribute('disabled');
+  paginaAnterior = info.prev;
+  proximaPagina = info.next;
 }
 
-const buscarPersonagens = async () => {
-  const { results } = await buscarRespostaApi(url);
-  verificarProximoEAnterior();
-  containerPersonagens.innerHTML = '';
-  results.forEach((personagem) => criarPersonagem(personagem))
+const buscarPersonagens = async (url) => {
+  const reqJSON = await buscarApi(url);
+  if (reqJSON) {
+    const { info, results } = reqJSON
+    verificarProximoEAnterior(info);
+    containerPersonagens.innerHTML = '';
+    results.forEach((personagem) => criarPersonagem(personagem))
+  }
 }
 
-buscarPersonagens();
+buscarPersonagens(url);
 
 const criarPersonagem = (personagem) => {
   const { name, status, species, location, image } = personagem;
@@ -42,17 +48,15 @@ const criarPersonagem = (personagem) => {
   containerPersonagens.appendChild(div)
 }
 
-const chamarProximaAnterior = async () => {
-  const { info } = await buscarRespostaApi(url);
-  url = info.prev;
-  buscarPersonagens();
+const chamarProximaAnterior = async () => buscarPersonagens(paginaAnterior);
+
+const chamarProximaPagina = async () => buscarPersonagens(proximaPagina);
+
+const procurarPersonagens = (event) => {
+  event.preventDefault();
+  buscarPersonagens(`https://rickandmortyapi.com/api/character/?name=${pesquisa.value}`);
 }
 
-const chamarProximaPagina = async () => {
-  const { info } = await buscarRespostaApi(url);
-  url = info.next;
-  buscarPersonagens();
-}
-
+btnProcurar.addEventListener('click', procurarPersonagens)
 btnPrev.addEventListener('click', chamarProximaAnterior)
 btnNext.addEventListener('click', chamarProximaPagina)

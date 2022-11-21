@@ -12,6 +12,38 @@ body {
   background-attachment: fixed;
 }
 
+form {
+  display: grid;
+  grid-template-columns: minmax(100px, 1fr) 90px;
+  padding: 0 30px;
+  margin: 50px auto;
+  max-width: 700px;
+}
+
+form input {
+  margin-right: 10px;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 1.5rem;
+}
+
+form button {
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  background-color: #1B998B;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+form button:hover {
+  filter: brightness(93%);
+}
+
 .botoes {
   display: flex;
   justify-content: space-between;
@@ -20,6 +52,7 @@ body {
 }
 
 .botoes button {
+  margin: 0 30px;
   border-radius: 4px;
   border: none;
   padding: 5px 15px;
@@ -38,10 +71,11 @@ body {
 }
 
 .personagens {
-  display: grid;
-  grid-template-columns: repeat(4, min-content);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 50px 25px;
-  max-width: max-content;
+  max-width: 1300px;
   margin: 0 auto;
 }
 
@@ -114,4 +148,8 @@ body {
 
 .personagem .sobre .ultima-localizacao {
   font-size: 1.4rem;
+}
+
+@media (max-width: 1300px) {
+
 }
