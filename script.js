@@ -1,6 +1,6 @@
 let url = 'https://rickandmortyapi.com/api/character';
 const pesquisa = document.querySelector('.pesquisa');
-const btnProcurar = document.querySelector('.procurar');
+const btnPesquisar = document.querySelector('.pesquisar');
 const btnPrev = document.querySelector('.prev');
 const btnNext = document.querySelector('.next');
 const containerPersonagens = document.querySelector('.personagens');
@@ -32,8 +32,9 @@ const buscarPersonagens = async (url) => {
 
 buscarPersonagens(url);
 
-const criarPersonagem = (personagem) => {
-  const { name, status, species, location, image } = personagem;
+const criarPersonagem = async (personagem) => {
+  const { name: nameCharacter, status, species, image, episode: episodeURL } = personagem;
+  const { name: nameEp, episode } = await buscarApi(episodeURL[0]);
   const div = document.createElement('div');
   div.classList.add('personagem');
   div.innerHTML = `<div>
@@ -41,25 +42,25 @@ const criarPersonagem = (personagem) => {
                     <span class="status ${status.toLowerCase()}">${status}</span>
                   </div>
                   <div class="sobre">
-                    <p class="nome">${name}</p>
+                    <p class="nome">${nameCharacter}</p>
                     <p class="especie">${species}</p>
-                    <p class="titulo-ultima-localizacao">Last know location:</p>
-                    <p class="ultima-localizacao">${location.name}</p>
+                    <p class="titulo-primeiro-episodio">First seen in:</p>
+                    <p class="primeiro-episodio">${nameEp} (${episode})</p>
                   </div>`;
   containerPersonagens.appendChild(div);
 }
 
-const procurarPersonagens = async (event) => {
+const pesquisarPersonagens = async (event) => {
   event.preventDefault();
   exibirMensagem('Searching...');
-  let busca = await buscarPersonagens(`https://rickandmortyapi.com/api/character/?name=${pesquisa.value}`);
-  if (!busca) busca = await buscarPersonagens(`https://rickandmortyapi.com/api/character/?status=${pesquisa.value}`);
+  let busca = await buscarPersonagens(`https://rickandmortyapi.com/api/character/?status=${pesquisa.value}`);
+  if (!busca) busca = await buscarPersonagens(`https://rickandmortyapi.com/api/character/?name=${pesquisa.value}`);
   if (!busca) busca = await buscarPersonagens(`https://rickandmortyapi.com/api/character/?species=${pesquisa.value}`);
-  if (!busca) exibirMensagem('no characters found');
+  if (!busca) exibirMensagem('No characters found');
 }
 
 const exibirMensagem = (msg) => containerPersonagens.innerHTML = `<p class='msg'>${msg}</p>`;
 
-btnProcurar.addEventListener('click', procurarPersonagens);
+btnPesquisar.addEventListener('click', pesquisarPersonagens);
 btnPrev.addEventListener('click', () => buscarPersonagens(paginaAnterior));
 btnNext.addEventListener('click', () => buscarPersonagens(proximaPagina));

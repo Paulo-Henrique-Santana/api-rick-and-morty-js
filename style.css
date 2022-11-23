@@ -83,7 +83,7 @@ form button:hover {
   flex-wrap: wrap;
   gap: 50px 25px;
   max-width: 1300px;
-  margin: 0 auto;
+  margin: 0 auto 30px auto;
 }
 
 .personagens .msg {
@@ -144,25 +144,23 @@ form button:hover {
 }
 
 .personagem .sobre .especie {
-  font-size: 1.4rem;
-  margin-bottom: 15px;
+  font-size: 1.45rem;
+  margin-bottom: 20px;
   background-color: #495057;
   padding: 0 3px;
   border-radius: 4px;
   width: min-content;
 }
 
-.personagem .sobre .titulo-ultima-localizacao {
+.personagem .sobre .titulo-primeiro-episodio {
   color: #a5a5a5;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: bold;
   margin-bottom: 1px;
 }
 
-.personagem .sobre .ultima-localizacao {
+.personagem .sobre .primeiro-episodio {
   font-size: 1.4rem;
-}
-
-@media (max-width: 1300px) {
+  font-weight: bold;
 
 }
