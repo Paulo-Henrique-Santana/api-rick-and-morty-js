@@ -12,7 +12,7 @@ body {
   background-attachment: fixed;
 }
 
-img {
+.logo {
   max-width: 100%;
   display: block;
   margin: 0 auto;
@@ -63,7 +63,8 @@ form button:hover {
   border: none;
   padding: 7.5px 20px;
   background-color: #1B998B;
-  font-size: 1.7rem;
+  font-size: 1.6rem;
+  font-weight: bold;
   color: white;
   cursor: pointer;
 }
@@ -83,6 +84,12 @@ form button:hover {
   gap: 50px 25px;
   max-width: 1300px;
   margin: 0 auto;
+}
+
+.personagens .msg {
+  margin-top: 100px;
+  font-size: 2rem;
+  color: white;
 }
 
 .personagem {

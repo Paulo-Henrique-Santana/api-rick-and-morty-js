@@ -22,11 +22,12 @@ const verificarProximoEAnterior = async (info) => {
 const buscarPersonagens = async (url) => {
   const reqJSON = await buscarApi(url);
   if (reqJSON) {
-    const { info, results } = reqJSON
+    const { info, results } = reqJSON;
     verificarProximoEAnterior(info);
     containerPersonagens.innerHTML = '';
     results.forEach((personagem) => criarPersonagem(personagem))
   }
+  return !!reqJSON;
 }
 
 buscarPersonagens(url);
@@ -45,18 +46,20 @@ const criarPersonagem = (personagem) => {
                     <p class="titulo-ultima-localizacao">Last know location:</p>
                     <p class="ultima-localizacao">${location.name}</p>
                   </div>`;
-  containerPersonagens.appendChild(div)
+  containerPersonagens.appendChild(div);
 }
 
-const chamarProximaAnterior = async () => buscarPersonagens(paginaAnterior);
-
-const chamarProximaPagina = async () => buscarPersonagens(proximaPagina);
-
-const procurarPersonagens = (event) => {
+const procurarPersonagens = async (event) => {
   event.preventDefault();
-  buscarPersonagens(`https://rickandmortyapi.com/api/character/?name=${pesquisa.value}`);
+  exibirMensagem('Searching...');
+  let busca = await buscarPersonagens(`https://rickandmortyapi.com/api/character/?name=${pesquisa.value}`);
+  if (!busca) busca = await buscarPersonagens(`https://rickandmortyapi.com/api/character/?status=${pesquisa.value}`);
+  if (!busca) busca = await buscarPersonagens(`https://rickandmortyapi.com/api/character/?species=${pesquisa.value}`);
+  if (!busca) exibirMensagem('no characters found');
 }
 
-btnProcurar.addEventListener('click', procurarPersonagens)
-btnPrev.addEventListener('click', chamarProximaAnterior)
-btnNext.addEventListener('click', chamarProximaPagina)
+const exibirMensagem = (msg) => containerPersonagens.innerHTML = `<p class='msg'>${msg}</p>`;
+
+btnProcurar.addEventListener('click', procurarPersonagens);
+btnPrev.addEventListener('click', () => buscarPersonagens(paginaAnterior));
+btnNext.addEventListener('click', () => buscarPersonagens(proximaPagina));
