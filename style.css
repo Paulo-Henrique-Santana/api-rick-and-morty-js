@@ -6,7 +6,7 @@
 }
 
 body {
-  background-image: url('../background-galaxy.png');
+  background-image: url('./background-galaxy.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
