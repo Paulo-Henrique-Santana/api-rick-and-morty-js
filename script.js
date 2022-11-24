@@ -32,22 +32,67 @@ const buscarPersonagens = async (url) => {
 
 buscarPersonagens(url);
 
-const criarPersonagem = async (personagem) => {
-  const { name: nameCharacter, status, species, image, episode: episodeURL } = personagem;
+
+const criarPersonagem = async (dadosPersonagem) => {
+  const { 
+    name: nameCharacter, 
+    status,
+    species,
+    gender,
+    origin: {name: origin},
+    location: {name: lastLocation},
+    image,
+    episode: episodeURL
+  } = dadosPersonagem;
+
   const { name: nameEp, episode } = await buscarApi(episodeURL[0]);
-  const div = document.createElement('div');
-  div.classList.add('personagem');
-  div.innerHTML = `<div>
-                    <img src="${image}" alt="">
-                    <span class="status ${status.toLowerCase()}">${status}</span>
-                  </div>
-                  <div class="sobre">
-                    <p class="nome">${nameCharacter}</p>
-                    <p class="especie">${species}</p>
-                    <p class="titulo-primeiro-episodio">First seen in:</p>
-                    <p class="primeiro-episodio">${nameEp} (${episode})</p>
-                  </div>`;
-  containerPersonagens.appendChild(div);
+
+  const divPersonagem = document.createElement('div');
+  divPersonagem.classList.add('container-flip');
+  divPersonagem.innerHTML = `
+  <div class="flipper">
+    <div class="personagem front">
+      <img src="${image}" alt="">
+      <span class="status ${(status).toLowerCase()}">${status}</span>
+      <div class="sobre">
+        <p class="nome">${nameCharacter}</p>
+        <div class="box-especie">
+          <p class="especie">${species}</p>
+        </div>
+        <p class="titulo-caracteristica">First seen in:</p>
+        <p class="caracteristica">${episode} - ${nameEp}</p>
+      </div>
+    </div>
+    <div class="back">
+      <div class="personagem modal">
+        <div class="container-nome-status">
+          <p class="nome">${nameCharacter}</p>
+          <span class="status ${(status).toLowerCase()}">${status}</span>
+        </div>
+        <div class="box-especie">
+          <p class="especie">${species}</p>
+        </div>
+        <p class="titulo-caracteristica">Gender:</p>
+        <p class="caracteristica">${gender}</p>
+        <p class="titulo-caracteristica">Origin:</p>
+        <p class="caracteristica">${origin}</p>
+        <p class="titulo-caracteristica">Last know location:</p>
+        <p class="caracteristica">${lastLocation}</p>
+        <p class="titulo-caracteristica">Present in episodes:</p>
+        <ul class="caracteristica"></ul>
+      </div>
+    </div>
+  </div>`;
+
+  episodeURL.forEach(async (ep) => {
+    const { name, episode } = await buscarApi(ep)
+    const li = document.createElement('li');
+    li.innerText = `${episode} - ${name}`;
+    divPersonagem.querySelector('ul').appendChild(li);
+  });
+  
+  divPersonagem.addEventListener('click', () => divPersonagem.classList.toggle('ativo'));
+  containerPersonagens.appendChild(divPersonagem);
 }
 
 const pesquisarPersonagens = async (event) => {
